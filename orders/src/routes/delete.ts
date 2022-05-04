@@ -33,7 +33,7 @@ router.delete(
     // publishing an evernt saying this was cancelled!!!
     new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
-      version: 1,
+      version: order.version,
       ticket: {
         id: order.ticket.id,
       },
