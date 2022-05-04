@@ -1,0 +1,88 @@
+{
+  "name": "mongoose-update-if-current",
+  "version": "1.4.0",
+  "description": "Optimistic concurrency control (OCC) plugin for mongoose",
+  "main": "lib/index.js",
+  "typings": "typings/index.d.ts",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "npm run clean && npm run babel",
+    "ci": "npm run build && npm test -- --coverage --no-cache",
+    "clean": "del-cli 'lib/**' '!lib'",
+    "babel": "babel src --out-dir lib --source-maps",
+    "lint": "eslint src __tests__",
+    "prepack": "npm run build && npm test",
+    "postversion": "npm run build && npm run test && git push && git push --tags && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eoin-obrien/mongoose-update-if-current.git"
+  },
+  "keywords": [
+    "mongodb",
+    "mongoose",
+    "plugin",
+    "save",
+    "concurrency",
+    "concurrency control",
+    "optimistic concurrency control",
+    "versioning"
+  ],
+  "author": {
+    "name": "Eoin O'Brien",
+    "email": "eoinobrien910@gmail.com",
+    "url": "https://videtur.io/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eoin-obrien/mongoose-update-if-current/issues"
+  },
+  "homepage": "https://github.com/eoin-obrien/mongoose-update-if-current",
+  "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^25.2.6",
+    "del-cli": "^3.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^25.2.6",
+    "mongoose": "^5.9.7",
+    "uuid": "^7.0.3"
+  },
+  "dependencies": {
+    "core-js": "^3.2.1",
+    "kareem": "^2.3.0",
+    "regenerator-runtime": "^0.13.5"
+  },
+  "peerDependencies": {
+    "mongoose": ">=5.0.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/__setup__.js"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/__tests__/",
+      "/node_modules/"
+    ],
+    "testEnvironment": "node",
+    "testRegex": "__tests__/.*\\.spec\\.js$",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ]
+  }
+}
