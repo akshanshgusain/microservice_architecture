@@ -36,6 +36,33 @@ const setup = async () => {
   return { msg, data, ticket, listener };
 };
 
-it("finds, updates, and saves a ticket", async () => {});
+it("finds, updates, and saves a ticket", async () => {
+  const { msg, data, ticket, listener } = await setup();
 
-it("acks the message", async () => {});
+  await listener.onMessage(data, msg);
+
+  const updatedTicket = await Ticket.findById(ticket.id);
+
+  expect(updatedTicket!.title).toEqual(data.title);
+  expect(updatedTicket!.price).toEqual(data.price);
+  expect(updatedTicket!.version).toEqual(data.version);
+});
+
+it("acks the message", async () => {
+  const { msg, data, ticket, listener } = await setup();
+
+  await listener.onMessage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
+});
+
+it("does not calll ack if the event has a skipped version number", async () => {
+  const { msg, data, listener, ticket } = await setup();
+
+  data.version = 10;
+  try {
+    await listener.onMessage(data, msg);
+  } catch {}
+
+  expect(msg.ack).not.toHaveBeenCalled();
+});
