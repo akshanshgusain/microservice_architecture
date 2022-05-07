@@ -30,6 +30,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       orderId: ticket.orderId,
       version: ticket.version,
     });
+
     // ack the message
     msg.ack();
   }
