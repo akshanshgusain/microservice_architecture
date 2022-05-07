@@ -1,4 +1,5 @@
 import { natsWrapper } from "./nats-wrapper";
+import { OrderCreatedListener } from "./src/events/listeners/order-created-listner";
 
 const start = async () => {
   // Check for Environment Variables
@@ -34,6 +35,9 @@ const start = async () => {
     process.on("SIGTERM", () => {
       natsWrapper.client.close();
     });
+
+    new OrderCreatedListener(natsWrapper.client).listen();
+
     console.log("Expiration: Connected to Nats");
   } catch (err) {
     console.error(err);
