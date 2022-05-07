@@ -19,6 +19,8 @@
   "license": "ISC",
   "dependencies": {
     "@sgtickets/common": "^1.0.24",
+    "@types/bull": "^3.15.8",
+    "bull": "^4.8.2",
     "node-nats-streaming": "^0.2.6",
     "ts-node-dev": "^1.1.6",
     "typescript": "^4.2.4"
