@@ -1,43 +1,41 @@
-import axios from "axios";
-import buildClient from "../api/build-client";
+import Link from 'next/link';
 
-// const LandingPage = ({ currentUser }) => {
-//   console.log(currentUser);
-//   axios.get('/api/users/currentuser').catch((err) => {
-//     console.log(err.message);
-//   });
+const LandingPage = ({ currentUser, tickets }) => {
+  const ticketList = tickets.map((ticket) => {
+    return (
+      <tr key={ticket.id}>
+        <td>{ticket.title}</td>
+        <td>{ticket.price}</td>
+        <td>
+          <Link href="/tickets/[ticketId]" as={`/tickets/${ticket.id}`}>
+            <a>View</a>
+          </Link>
+        </td>
+      </tr>
+    );
+  });
 
-//   return <h1>Landing Page</h1>;
-// };
-
-const LandingPage = ({ currentUser }) => {
-  return currentUser ? (
-    <h1>You are Signed in</h1>
-  ) : (
-    <h1>Main - Index Changed 4</h1>
+  return (
+    <div>
+      <h1>Tickets</h1>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>{ticketList}</tbody>
+      </table>
+    </div>
   );
 };
 
-// Not a Component
-LandingPage.getInitialProps = async (context) => {
-  // if (typeof window == "undefined") {
-  //   // Server Side
-  //   // Request should be made to: https://ingress-nginx.ingress-nginx-srv.auth-srv/asfasf
-  //   const { data } = await axios.get(
-  //     "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser",
-  //     {
-  //       headers: req.headers,
-  //     }
-  //   );
-  //   return data;
-  // } else {
-  //   // // Browser side
-  //   const { data } = await axios.get("/api/users/currentuser");
-  //   return data;
-  // }
+LandingPage.getInitialProps = async (context, client, currentUser) => {
+  const { data } = await client.get('/api/tickets');
 
-  const { data } = await buildClient(context).get("/api/users/currentuser");
-  return data;
+  return { tickets: data };
 };
 
 export default LandingPage;
