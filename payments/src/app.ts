@@ -4,6 +4,7 @@ import { json } from "body-parser";
 
 import cookieSession from "cookie-session";
 import { errorHandler, NotFoundError, currentUser } from "@sgtickets/common";
+import { createChargeRouter } from "./routes/new";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(
 app.use(currentUser);
 
 // Routes
+app.use(createChargeRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();
